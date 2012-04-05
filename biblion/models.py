@@ -69,7 +69,10 @@ class Post(models.Model):
     
     def current(self):
         "the currently visible (latest published) revision"
-        return self.revisions.exclude(published=None).order_by("-published")[0]
+        try:
+            return self.revisions.exclude(published=None).order_by("-published")[0]
+        except IndexError:
+            return
     
     def latest(self):
         "the latest modified (even if not published) revision"
